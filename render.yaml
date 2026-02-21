@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: bart-mcp-server
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python src/server.py
+    envVars:
+      - key: BART_API_KEY
+        sync: false
+    healthCheckPath: /health
