@@ -393,21 +393,14 @@ async def bart_list_stations() -> str:
 # Run
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    import uvicorn
-    from starlette.applications import Starlette
-    from starlette.routing import Route, Mount
-    from starlette.responses import JSONResponse
-
-    async def health(request):
-        return JSONResponse({"status": "ok", "service": "bart-mcp-server"})
-
-    # Get the ASGI app from FastMCP for streamable HTTP
-    mcp_app = mcp.http_app(path="/mcp")
-
-    app = Starlette(routes=[
-        Route("/health", health),
-        Mount("/", app=mcp_app),
-    ])
+    import asyncio
 
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+
+    asyncio.run(mcp.run_http_async(
+        host="0.0.0.0",
+        port=port,
+        path="/mcp",
+        transport="streamable-http",
+        stateless_http=True,
+    ))
