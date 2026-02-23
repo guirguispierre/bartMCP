@@ -3,5 +3,8 @@ main = "src/index.ts"
 compatibility_date = "2025-06-01"
 compatibility_flags = ["nodejs_compat"]
 
+[build]
+command = "npm install"
+
 [vars]
 BART_API_KEY = "MW9S-E7SL-26DU-VV8V"
